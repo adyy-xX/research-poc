@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Nehal</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500&family=Work+Sans:wght@400;500;600&display=swap');
+
+  :root {
+    --cream: #FBF3EE;
+    --plum: #3D2233;
+    --rose: #C97D8C;
+    --rose-deep: #A75468;
+    --gold: #D9A45B;
+    --sage: #7C8B5F;
+    --line: rgba(61, 34, 51, 0.12);
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: var(--cream);
+    color: var(--plum);
+    font-family: 'Work Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 24px;
+  }
+
+  /* soft floating petals in background */
+  .petal {
+    position: fixed;
+    border-radius: 50% 0 50% 50%;
+    background: var(--rose);
+    opacity: 0.18;
+    pointer-events: none;
+    animation: drift linear infinite;
+  }
+  @keyframes drift {
+    from { transform: translateY(-10vh) rotate(0deg); }
+    to { transform: translateY(110vh) rotate(360deg); }
+  }
+
+  .card {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 560px;
+    background: #fff;
+    border: 1px solid var(--line);
+    border-radius: 28px;
+    padding: 56px 44px;
+    text-align: center;
+    box-shadow: 0 30px 60px -20px rgba(61, 34, 51, 0.18);
+  }
+
+  .mark {
+    width: 46px;
+    height: 46px;
+    margin: 0 auto 22px;
+  }
+
+  .eyebrow {
+    font-size: 14px;
+    color: var(--rose-deep);
+    margin-bottom: 6px;
+    font-weight: 500;
+  }
+
+  h1 {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: clamp(28px, 5vw, 38px);
+    line-height: 1.15;
+    margin: 0 0 14px;
+  }
+
+  h1 em {
+    font-style: italic;
+    font-weight: 500;
+    color: var(--rose-deep);
+  }
+
+  p.sub {
+    font-size: 16px;
+    color: rgba(61,34,51,0.65);
+    line-height: 1.6;
+    max-width: 420px;
+    margin: 0 auto 34px;
+  }
+
+  .btn-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    min-height: 60px;
+  }
+
+  button {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    padding: 15px 32px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .yes {
+    background: var(--rose-deep);
+    color: #fff;
+    box-shadow: 0 10px 24px -8px rgba(167, 84, 104, 0.6);
+  }
+  .yes:hover {
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 14px 30px -8px rgba(167, 84, 104, 0.7);
+  }
+
+  .no {
+    background: transparent;
+    color: rgba(61,34,51,0.45);
+    border: 1px solid var(--line);
+    position: relative;
+    transition: left 0.18s ease, top 0.18s ease, transform 0.15s ease;
+  }
+
+  .no.dodging {
+    position: fixed;
+  }
+
+  .step { display: none; }
+  .step.active { display: block; animation: rise 0.5s ease; }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .progress {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--line);
+    transition: background 0.3s ease;
+  }
+  .dot.done { background: var(--rose-deep); }
+
+  .heart-divider {
+    width: 100%;
+    height: 1px;
+    background: var(--line);
+    margin: 30px 0 26px;
+    position: relative;
+  }
+  .heart-divider span {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 0 12px;
+    font-size: 18px;
+  }
+
+  .plan-fixed {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .plan-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px 18px;
+    font-size: 16px;
+    font-weight: 500;
+    background: var(--cream);
+    text-align: left;
+  }
+  .plan-item span { line-height: 1.3; }
+
+  .note-box {
+    background: var(--cream);
+    border: 1px dashed var(--gold);
+    border-radius: 16px;
+    padding: 14px 18px;
+    font-size: 14px;
+    color: rgba(61,34,51,0.75);
+    margin-bottom: 26px;
+    text-align: left;
+  }
+
+  .polaroid-strip {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin: 0 0 30px;
+    flex-wrap: wrap;
+  }
+  .polaroid {
+    background: #fff;
+    padding: 8px 8px 14px;
+    border-radius: 4px;
+    box-shadow: 0 10px 20px -8px rgba(61, 34, 51, 0.25);
+    width: 92px;
+  }
+  .polaroid img {
+    width: 100%;
+    height: 92px;
+    object-fit: cover;
+    border-radius: 2px;
+    display: block;
+  }
+  .polaroid:nth-child(1) { transform: rotate(-6deg); }
+  .polaroid:nth-child(2) { transform: rotate(4deg); margin-top: 10px; }
+  .polaroid:nth-child(3) { transform: rotate(-3deg); margin-top: -6px; }
+  .polaroid:nth-child(4) { transform: rotate(7deg); margin-top: 8px; }
+
+  .polaroid-strip.small .polaroid { width: 64px; }
+  .polaroid-strip.small .polaroid img { height: 60px; }
+
+  /* final calendar step */
+  .date-picker {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 28px;
+  }
+  .date-option {
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 16px 10px;
+    cursor: pointer;
+    background: var(--cream);
+    transition: all 0.15s ease;
+  }
+  .date-option:hover {
+    border-color: var(--rose-deep);
+    transform: translateY(-2px);
+  }
+  .date-option.selected {
+    background: var(--rose-deep);
+    color: #fff;
+    border-color: var(--rose-deep);
+  }
+  .date-option .day-label {
+    font-size: 12px;
+    text-transform: none;
+    opacity: 0.7;
+    margin-bottom: 4px;
+  }
+  .date-option .day-num {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+  }
+
+  .confirm-btn {
+    background: var(--sage);
+    color: #fff;
+    width: 100%;
+    padding: 16px;
+    font-size: 16px;
+    box-shadow: 0 10px 24px -8px rgba(124, 139, 95, 0.5);
+  }
+  .confirm-btn:disabled {
+    background: var(--line);
+    color: rgba(61,34,51,0.4);
+    cursor: not-allowed;
+    box-shadow: none;
+  }
+
+  .success {
+    text-align: center;
+  }
+  .success .big-mark {
+    font-size: 52px;
+    margin-bottom: 10px;
+  }
+
+  .calendar-link {
+    display: inline-block;
+    margin-top: 22px;
+    color: var(--rose-deep);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid var(--rose-deep);
+    padding-bottom: 2px;
+  }
+
+  @media (max-width: 480px) {
+    .card { padding: 40px 26px; }
+    .date-picker { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>
+</head>
+<body>
+
+<div class="card">
+
+  <div class="progress" id="progress"></div>
+
+  <!-- STEP 0 -->
+  <div class="step active" data-step="0">
+    <div class="eyebrow">Helloooo</div>
+    <h1>I have a question for you  </h1>
+    <div class="polaroid-strip">
+      <div class="polaroid"><img src="" alt=""></div>
+
+
+
+
+
+
+      <div class="polaroid"><img src="" alt=""></div>
+
+
+
+
+
+      <div class="polaroid"><img src="" alt=""></div>
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="polaroid"><img src="" alt=""></div>
+    </div>
+    <div class="btn-row">
+      <button class="yes" onclick="nextStep()">Sure, what is it?</button>
+    </div>
+  </div>
+
+  <!-- STEP 1 -->
+  <div class="step" data-step="1">
+    <div class="eyebrow">Question 1</div>
+    <h1>Are you free on <em>Sunday</em>?</h1>
+    <p class="sub">I know you're free only</p>
+    <div class="btn-row">
+      <button class="yes" onclick="nextStep()">Yes, of course</button>
+      <button class="no" id="no-btn-1" onclick="dodge(this)" onmouseover="dodge(this)">Not really</button>
+    </div>
+  </div>
+
+  <!-- STEP 2 -->
+  <div class="step" data-step="2">
+    
+    <h1>Let's go for  <em>lunch</em>?</h1>
+    <p class="sub">I know you won't say no hehehehe.</p>
+    <div class="btn-row">
+      <button class="yes" onclick="nextStep()">Sure</button>
+      <button class="no" id="no-btn-2" onclick="dodge(this)" onmouseover="dodge(this)">Paakalam</button>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="step" data-step="3">
+   
+    <h1>Since you said  <em>okay</em></h1>
+    <p class="sub">I'll check my calendar and let you know if I'm free</p>
+    <div class="btn-row">
+      <button class="yes" onclick="nextStep()">Yes please, I want to hangout with you </button>
+      <button class="no" id="no-btn-3" onclick="dodge(this)" onmouseover="dodge(this)">No need</button>
+    </div>
+  </div>
+
+  <!-- STEP 4: fixed plan -->
+  <div class="step" data-step="4">
+    <div class="eyebrow">Congratulations, you've fixed an appointment to hangout with me</div>
+    <h1>Details below </h1>
+    
+
+    <div class="plan-fixed">
+      <div class="plan-item">🍽️ <span>Lunch at Double Dashi, Anna Nagar / Alwarpet</span></div>
+      <div class="plan-item">🎳 <span>Bowling polamaaa after lunch?</span></div>
+    </div>
+
+
+
+    <button class="yes" style="width:100%;" onclick="nextStep()">Next, pick the day</button>
+  </div>
+
+  <!-- STEP 5: date picker -->
+  <div class="step" data-step="5">
+    
+    <h1>Choose the date <em>bestie</em>.</h1>
+    <p class="sub">Tap a day that works for you.</p>
+
+    <div class="date-picker" id="datePicker"></div>
+
+    <div class="note-box"> I'll consider and let you know my availability. Pick 18th hehe</div>
+
+    <button class="yes confirm-btn" id="confirmBtn" disabled onclick="confirmPlan()">Confirm the plan</button>
+  </div>
+
+  <!-- STEP 6: success -->
+  <div class="step" data-step="6">
+    <div class="success">
+      <div class="big-mark">🌸</div>
+      <h1>Congratulations!.</h1>
+      <div class="polaroid-strip small">
+        <div class="polaroid"><img src="" alt=""></div>
+        <div class="polaroid"><img src="" alt=""></div>
+      </div>
+      <p class="sub" id="finalSummary"></p>
+      <a class="yes" id="sendAnswerBtn" style="display:inline-block; text-decoration:none;" href="#" target="_blank">Send response</a>
+      <br>
+      <a class="calendar-link" id="calendarLink" href="#" target="_blank">Add to calendar</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const totalSteps = 6; // steps 0-5 count toward progress, 6 is the result
+  const progressEl = document.getElementById('progress');
+  for (let i = 0; i < totalSteps; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot';
+    d.dataset.index = i;
+    progressEl.appendChild(d);
+  }
+
+  let currentStep = 0;
+
+  function showStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.querySelector(`.step[data-step="${n}"]`).classList.add('active');
+    document.querySelectorAll('.dot').forEach((d, i) => {
+      d.classList.toggle('done', i <= n && n < totalSteps);
+    });
+    currentStep = n;
+  }
+
+  function nextStep() {
+    const next = Math.min(currentStep + 1, 6);
+    showStep(next);
+    if (next === 5) buildDatePicker();
+  }
+
+  // plan is fixed (SOCIAL + bowling) — nothing to select here
+
+  // the dodging "no" button on the final ask
+  function dodge(btn) {
+    const bounds = document.body.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    const maxX = window.innerWidth - btnRect.width - 20;
+    const maxY = window.innerHeight - btnRect.height - 20;
+    const newX = Math.max(20, Math.random() * maxX);
+    const newY = Math.max(20, Math.random() * maxY);
+
+    btn.classList.add('dodging');
+    btn.style.left = newX + 'px';
+    btn.style.top = newY + 'px';
+  }
+
+  // date picker — only offer dates after the 10th of the relevant month
+  function buildDatePicker() {
+    const container = document.getElementById('datePicker');
+    if (container.childElementCount > 0) return; // build once
+    const today = new Date();
+    const dayNames = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+    const monthNames = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+    // figure out the first eligible day: the 11th of the current month,
+    // or the 11th of next month if we're already past the 10th.
+    let year = today.getFullYear();
+    let month = today.getMonth();
+    if (today.getDate() >= 10) {
+      month =9;
+      if (month > 11) { month = 0; year += 1; }
+    }
+    const startDay = 18;
+
+    for (let i = 0; i < 6; i++) {
+      const d = new Date(year, month, startDay + i);
+      const opt = document.createElement('div');
+      opt.className = 'date-option';
+      opt.dataset.date = d.toISOString();
+      opt.innerHTML = `<div class="day-label">${dayNames[d.getDay()]} · ${monthNames[d.getMonth()]}</div><div class="day-num">${d.getDate()}</div>`;
+      opt.onclick = () => selectDate(opt);
+      container.appendChild(opt);
+    }
+  }
+
+  let selectedDateEl = null;
+
+  function selectDate(el) {
+    document.querySelectorAll('.date-option').forEach(o => o.classList.remove('selected'));
+    el.classList.add('selected');
+    selectedDateEl = el;
+    checkReady();
+  }
+
+  function checkReady() {
+    document.getElementById('confirmBtn').disabled = !selectedDateEl;
+  }
+
+  const YOUR_WHATSAPP_NUMBER = "918637629599"; // country code + number, no + or spaces
+  const FIXED_TIME_LABEL = "1:00 PM to 5:00 PM";
+
+  function confirmPlan() {
+    const d = new Date(selectedDateEl.dataset.date);
+    const dateStr = d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+    document.getElementById('finalSummary').textContent =
+      `${dateStr}, ${FIXED_TIME_LABEL}. Lunch at Double Dashi, then bowling.`;
+
+    // WhatsApp message pre-filled with her answer, ready for her to just hit send
+    const waMessage = `Hey! I'm in ! Let's do ${dateStr}, ${FIXED_TIME_LABEL}. Lunch at Double Dashi + bowling sounds fun. Can't wait to see youuuu`;
+    const waUrl = `https://wa.me/${YOUR_WHATSAPP_NUMBER}?text=${encodeURIComponent(waMessage)}`;
+    document.getElementById('sendAnswerBtn').href = waUrl;
+
+    // build a google calendar link: 11:00 AM to 5:00 PM
+    const start = new Date(d);
+    start.setHours(11, 0, 0, 0);
+    const end = new Date(d);
+    end.setHours(16, 0, 0, 0);
+    const fmt = (dt) => dt.toISOString().replace(/[-:]/g,'').split('.')[0] + 'Z';
+    const details = encodeURIComponent(`Plan: Lunch at Double Dashi + Bowling\nLocation: Anna Nagar\n11:00 AM to 5:00 PM.`);
+    const gcalUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent('Hanging out')}&dates=${fmt(start)}/${fmt(end)}&details=${details}&location=${encodeURIComponent('Anna Nagar/ Alwarper, Chennai')}`;
+    document.getElementById('calendarLink').href = gcalUrl;
+
+    showStep(6);
+  }
+
+  // background petals
+  for (let i = 0; i < 10; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const size = 10 + Math.random() * 18;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random() * 100 + 'vw';
+    p.style.animationDuration = (10 + Math.random() * 10) + 's';
+    p.style.animationDelay = (Math.random() * 10) + 's';
+    document.body.appendChild(p);
+  }
+</script>
+
+</body>
+</html>
